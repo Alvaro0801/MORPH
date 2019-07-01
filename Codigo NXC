@@ -1,0 +1,157 @@
+#include "NXCDefs.h"
+
+
+
+task sensoni()                     //ULTRASONICO
+{
+    
+     while (true)
+     {
+        
+     
+           if(SensorUS(IN_4)<=20)
+             {
+               PlayFileEx("Red.rso" ,7,false);
+               Wait(500); 
+               Off(OUT_AC);
+             
+               PlayFileEx("Detect.rso" ,7,false);
+               Wait(500);
+                
+               SetSensorColorBlue(IN_3);
+               OnRev(OUT_AC,60);
+               Wait(1500);
+               SetSensorColorRed(IN_3);
+               RotateMotor(OUT_A,75,180);
+               SetSensorColorGreen(IN_3);
+               OnFwd(OUT_AC,60);
+             }
+             else
+                 if(Sensor(IN_3)==5)
+                 {
+                   Off(OUT_AC);
+                 }
+          
+     }
+}
+
+
+task contac()                     //SENSOR DE CONTACTO
+ {
+     SetSensorTouch(IN_1);
+     SetSensorTouch(IN_2);
+      while(true)
+      {
+       
+        
+        if(Sensor(IN_2)==1)
+          {        /*SENSOR IZQUIERDO*/
+            PlayFileEx("Left.rso" ,7,false);
+            Wait(500);
+            RotateMotor(OUT_C,75,1440);
+          }
+                                      
+          if(Sensor(IN_1)==1)
+          {            /*SENSOR DERECHO*/
+            PlayFileEx("Right.rso" ,7,false);
+            Wait(500);
+            RotateMotor(OUT_A,75,1440);
+          }
+          
+       
+      }
+ 
+ }
+
+task sencolo()
+{
+     
+     while(true)
+     {
+      
+     
+       if(Sensor(IN_3)==2)
+               {
+                 PlayFileEx("Blue.rso" ,7,false);
+                 Wait(500);                  
+                 RotateMotor(OUT_B,75,-180); 
+               }
+               
+      
+           if(Sensor(IN_3)==3)
+           {
+             PlayFileEx("Green.rso" ,7,false);
+             Wait(500);  
+             OnFwd(OUT_AC,75);
+           }
+          
+               if(Sensor(IN_3)==4)
+               {
+                 PlayFileEx("Yellow.rso" ,7,false); 
+                 Wait(500); 
+     
+                 OnRev(OUT_AC,75);
+                 Wait(1500);
+                 OnFwd(OUT_AC,75);
+                 Wait(1500);
+                 OnRev(OUT_AC,75);
+                 Wait(1500);
+                 OnFwd(OUT_AC,75);
+                 Wait(1500);
+       
+                 OnFwd(OUT_A,60);
+                 OnFwd(OUT_C,0);
+                 Wait(500);
+                 OnRev(OUT_A,60);
+                 OnFwd(OUT_C,0);
+                 Wait(500);
+                 OnFwd(OUT_C,60);
+                 OnFwd(OUT_A,0);
+                 Wait(500);
+                 OnRev(OUT_C,60);
+                 OnFwd(OUT_A,0);
+                 Wait(500);
+                 
+                 OnRev(OUT_A,60);
+                 OnFwd(OUT_C,0);
+                 Wait(500);
+                 OnFwd(OUT_A,60);
+                 OnFwd(OUT_C,0);
+                 Wait(500);
+                 OnRev(OUT_C,60);
+                 OnFwd(OUT_A,0);
+                 Wait(500);
+                 OnFwd(OUT_C,60);
+                 OnFwd(OUT_A,0);
+                 Wait(500);
+                 Off(OUT_AC);
+                 
+       
+               }
+              
+               if(Sensor(IN_3)==5)
+               {
+                 PlayFileEx("Red.rso" ,7,false);
+                 Wait(500); 
+                 Off(OUT_AC);
+                 Off(OUT_B);
+                 
+               }
+                
+       
+     }
+
+
+
+
+}
+
+task main()
+{
+  SetSensorLowspeed(IN_4);
+  SetSensorColorFull(IN_3);
+  Precedes(contac,sensoni,sencolo);
+
+
+
+}
